@@ -17,8 +17,6 @@ import win32com.client as win32
 # O FACEBOOK NÃO POSSUI API PARA COLETAR INFORMAÇÕES DO BATE-PAPO DO * MARKETPLACE *, SOMENTE DO BATE-PAPO COMUM.
 # ESTE BOT TINHA COMO INTUITO CRIAR UMA VENDA DE FORMA AUTOMATICA
 
-
-
 chrome_options = webdriver.ChromeOptions()
 prefs = {"profile.default_content_setting_values.notifications" : 2}
 chrome_options.add_experimental_option("prefs",prefs)
