@@ -618,11 +618,6 @@ def EnviarEmailCCadastro():
     <p>{teste}</p>
     <p>Abs,</p>
     <p>Código Python</p>
-    """
-
-    # anexo = "C://Users/joaop/Downloads/arquivo.xlsx"
-    # email.Attachments.Add(anexo)
-
     email.Send()
     print("Email Enviado")
 
@@ -643,10 +638,6 @@ def EnviarEmailSCadastro():
     <p>{CadastroNovo}</p>
     <p>Abs,</p>
     <p>Código Python</p>
-    """
-
-    # anexo = "C://Users/joaop/Downloads/arquivo.xlsx"
-    # email.Attachments.Add(anexo)
 
     email.Send()
     print("Email Enviado")
