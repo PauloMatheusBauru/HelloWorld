@@ -349,26 +349,6 @@ def Responder():
             Clientes.commit()
             FormaPagamento2()
 
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-################## COM RESPONDER SOZINHO#################################################
-
-
-
 def EntregaScadastroCartaoB():
     global ProdutoParavenda
     ProdutoParavenda = WebDriverWait(browser, 240).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div/div[1]/div/div[3]/div/div/div[1]/div[1]/div[2]/div/div[1]/div/div/div/div/div[1]/div[2]/div/a/div[1]/div[1]/div[2]/div/div[2]/span/span'))).text
