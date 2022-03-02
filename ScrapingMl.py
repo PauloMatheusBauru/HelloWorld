@@ -26,17 +26,3 @@ while True:
     browser.back()
     print (Preco)
     Preco = int(Preco)
-
-    # # # # CALCULAR O PREÇO # # # # #
-
-    if Preco < 50:
-        Preco =+ 15
-        print(Preco)
-    elif Preco > 50:
-        Preco += 30
-        print(Preco)
-
-
-    print(Titulo)
-    print(Preco)
-    print(Descricao)
