@@ -1,9 +1,9 @@
-from win10toast import ToastNotifier
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 import re
@@ -13,6 +13,7 @@ options = webdriver.ChromeOptions()
 options.add_argument("--headless")
 browser = webdriver.Chrome(chrome_options=options)
 browser.get("https://blaze.com/pt/games/double")
+
 AlertaB = ["B","B","B","B"]
 AlertaR = ["R","R","R","R"]
 B = ["B","B","B","B","B"]
@@ -50,108 +51,232 @@ Giros = 0
 Win = 0
 WinD = 0
 Loss = 0
-Verificar = 3
-Carteira = 65
+Verificar = 0
+Carteira = 50
 
 
 def Inciar():
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
-    # browser = webdriver.Chrome(chrome_options=options)
-    browser = webdriver.Chrome()
-    browser.get("https://web.whatsapp.com/")
-    ProcurarGrupo = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH, '//*[@id="side"]/div[1]/div/label/div/div[2]')))
+    global browser2
+    browser2 = webdriver.Chrome()
+    browser2.get("https://web.whatsapp.com/")
+    ProcurarGrupo = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH, '//*[@id="side"]/div[1]/div/label/div/div[2]')))
     ProcurarGrupo.send_keys("Teste bot")
     time.sleep(2)
-    SelecionarGrupo = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[1]/div[1]/div[3]/div/div[2]/div[1]/div/div/div[1]/div/div'))).click()
+    SelecionarGrupo = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/div[1]/div[1]/div[3]/div/div[2]/div[1]/div/div/div[1]/div/div'))).click()
+    MandarMsg1 = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
+    MandarMsg1.send_keys(f"*Robo Iniciado*")
+    EnviarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
     Varrer()
 
 def Looping():
     print("Looping")
 
-
-
 def Resultados():
+    global browser2
     global Win
     global WinD
     global Loss
     global Carteira
     global Verificar
-    MandarMsg1 = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
+    global Resultado
+    global ResultadoD
+    global ResultadoW
+    global ResultadoL
+    global Alerta
+    MandarMsg1 = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
     MandarMsg1.send_keys(f"*Acertamos de primeira: {Win} Vezes*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg1.send_keys(f"*Acertamos dobrando a quantia investida: {WinD} Vezes*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg1.send_keys(f"*Erramos: {Loss} Vezes*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg1.send_keys(f"*O robo tem {Carteira}*")
-    EnviarMsg = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    EnviarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    Resultado.clear()
+    ResultadoD.clear()
+    ResultadoW.clear()
+    ResultadoL.clear()
+    Alerta.clear()
     Varrer()
 
 
 
 
 def AlertarVermelho():
-    MandarMsg1 = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
+    global Resultado
+    global ResultadoD
+    global ResultadoW
+    global ResultadoL
+    global Alerta
+    global browser2
+    MandarMsg1 = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
     MandarMsg1.send_keys("*Alerta para possivel entrada*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg1.send_keys("Irá Apostar:\r *VERMELHO♦*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg1.send_keys("*Aguarde! ♦*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg1.send_keys("♦Desenvolvido por *B*♦")
-    EnviarMsg = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    EnviarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    Resultado.clear()
+    ResultadoD.clear()
+    ResultadoW.clear()
+    ResultadoL.clear()
+    Alerta.clear()
     Varrer()
 
 def AlertarPreto():
-    MandarMsg = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
+    global Resultado
+    global ResultadoD
+    global ResultadoW
+    global ResultadoL
+    global Alerta
+    global browser2
+    global browser2
+    MandarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
     MandarMsg.send_keys("Alerta para possivel entrada")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg.send_keys("Irá Apostar:\r *PRETO ⚫*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg.send_keys("*Aguarde! ⚫*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg.send_keys("⚫Desenvolvido por *B*⚫")
-    EnviarMsg = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    EnviarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    Resultado.clear()
+    ResultadoD.clear()
+    ResultadoW.clear()
+    ResultadoL.clear()
+    Alerta.clear()
     Varrer()
 
 def ConfirmarVermelho():
-    MandarMsg1 = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
+    global Resultado
+    global ResultadoD
+    global ResultadoW
+    global ResultadoL
+    global Alerta
+    global browser2
+    Resultado.clear()
+    ResultadoD.clear()
+    ResultadoW.clear()
+    ResultadoL.clear()
+    Alerta.clear()
+    global browser2
+    MandarMsg1 = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
     MandarMsg1.send_keys("*Entrar agora ✅*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg1.send_keys("Apostar:\r *VERMELHO♦*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg1.send_keys("*Entrada Confirmada! ✅*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg1.send_keys("♦Desenvolvido por *B*♦")
-    EnviarMsg = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    EnviarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    Resultado.clear()
+    ResultadoD.clear()
+    ResultadoW.clear()
+    ResultadoL.clear()
+    Alerta.clear()
     Varrer()
 
 def ConfirmarPreto():
-    MandarMsg = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
+    global Resultado
+    global ResultadoD
+    global ResultadoW
+    global ResultadoL
+    global Alerta
+    global browser2
+    Resultado.clear()
+    ResultadoD.clear()
+    ResultadoW.clear()
+    ResultadoL.clear()
+    Alerta.clear()
+    global browser2
+    MandarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
     MandarMsg.send_keys("Entrar Agora ✅")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg.send_keys("Apostar:\r *PRETO ⚫*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg.send_keys("*Entrada confirmada ✅*")
-    QuebarLinha = browser.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
+    QuebarLinha = browser2.find_element_by_xpath("/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]").send_keys(Keys.SHIFT + Keys.ENTER)
     MandarMsg.send_keys("⚫Desenvolvido por *B*⚫")
-    EnviarMsg = WebDriverWait(browser, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    EnviarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    Resultado.clear()
+    ResultadoD.clear()
+    ResultadoW.clear()
+    ResultadoL.clear()
+    Alerta.clear()
     Varrer()
 
+
+def ErrouDobre():
+    global Resultado
+    global ResultadoD
+    global ResultadoW
+    global ResultadoL
+    global Alerta
+    global browser2
+    MandarMsg1 = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
+    MandarMsg1.send_keys(f"Erramos Dobre a aposta  2️⃣")
+    EnviarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    Resultado.clear()
+    ResultadoD.clear()
+    ResultadoW.clear()
+    ResultadoL.clear()
+    Alerta.clear()
+    Varrer()
+
+
+def Acertamos():
+    global Resultado
+    global ResultadoD
+    global ResultadoW
+    global ResultadoL
+    global Alerta
+    global browser2
+    MandarMsg1 = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
+    MandarMsg1.send_keys(f"ACERTAMOS ✅")
+    EnviarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    Resultado.clear()
+    ResultadoD.clear()
+    ResultadoW.clear()
+    ResultadoL.clear()
+    Alerta.clear()
+    Varrer()
+
+
+def Erramos():
+    global Resultado
+    global ResultadoD
+    global ResultadoW
+    global ResultadoL
+    global Alerta
+    global browser2
+    MandarMsg1 = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[2]')))
+    MandarMsg1.send_keys(f"PERDEMOS ❌")
+    EnviarMsg = WebDriverWait(browser2, 130).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/div[1]/div[1]/div[4]/div[1]/footer/div[1]/div/span[2]/div/div[2]/div[2]/button/span'))).click()
+    ###### Para não repetir função
+    time.sleep(180)
+    Resultado.clear()
+    ResultadoD.clear()
+    ResultadoW.clear()
+    ResultadoL.clear()
+    Alerta.clear()
+    Varrer()
+
+
 def Varrer():
-    time.sleep(2)
     global Win
     global WinD
     global Loss
     global Carteira
     global Verificar
     global Giros
+    global browser2
     while True:
-        Timer = WebDriverWait(browser, 50).until(EC.presence_of_element_located((By.XPATH,f'/html/body/div[1]/main/div[1]/div[4]/div/div[1]/div/div/div[1]/div[2]/div[1]/div/div[1]/div/div[2]/span'))).text
-        if Timer == "0:00":
-            time.sleep(23)
-            print(Timer)
+        Timer = WebDriverWait(browser, 500000).until(EC.presence_of_element_located((By.XPATH,f'/html/body/div[1]/main/div[1]/div[4]/div/div[1]/div/div/div[1]/div[2]/div[1]/div/div[1]/div/div[2]/span'))).text
+        Timer = Timer[0]
+        if Timer == "0":
+            time.sleep(19)
             try:
                 Teste1 = WebDriverWait(browser, 0).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/main/div[1]/div[4]/div/div[1]/div/div/div[1]/div[2]/div[2]/div/div[1]/div[1]/div/div/div'))).text
             except TimeoutException:
@@ -302,7 +427,6 @@ def Varrer():
                     ResultadoW.append(Teste6R)
                     ResultadoWD.append(Teste6R)
             except ValueError:
-                Resultado.append("Branco")
                 ResultadoW.append("Branco")
                 ResultadoL.append("Branco")
                 ResultadoD.append("Branco")
@@ -476,8 +600,7 @@ def Varrer():
                         ResultadoD.append("Branco")
                         ResultadoWD.append("Branco")
                     try:
-                        Teste6 = WebDriverWait(browser, 0).until(EC.presence_of_element_located((By.XPATH,
-                                                                                                 '/html/body/div[1]/main/div[1]/div[4]/div/div[1]/div/div/div[1]/div[2]/div[2]/div/div[1]/div[6]/div/div/div'))).text
+                        Teste6 = WebDriverWait(browser, 0).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[1]/main/div[1]/div[4]/div/div[1]/div/div/div[1]/div[2]/div[2]/div/div[1]/div[6]/div/div/div'))).text
                     except TimeoutException:
                         Teste6 = "Branco"
                     try:
@@ -495,7 +618,6 @@ def Varrer():
                             ResultadoW.append(Teste6R)
                             ResultadoWD.append(Teste6R)
                     except ValueError:
-                        Resultado.append("Branco")
                         ResultadoW.append("Branco")
                         ResultadoL.append("Branco")
                         ResultadoD.append("Branco")
@@ -521,27 +643,77 @@ def Varrer():
                     print("Esperando Uma loss para começar")
                     if ResultadoL == Bloss:
                         print("Errou Dobrado")
+                        Resultado.clear()
+                        ResultadoD.clear()
+                        ResultadoW.clear()
+                        ResultadoL.clear()
+                        Alerta.clear()
+                        time.sleep(225)
                         Varrer()
                     if ResultadoL == RLoss:
                         print("Errou Dobrado")
+                        Resultado.clear()
+                        ResultadoD.clear()
+                        ResultadoW.clear()
+                        ResultadoL.clear()
+                        Alerta.clear()
+                        time.sleep(225)
+                        Varrer()
                         Varrer()
                     if ResultadoL == BlossD:
                         print("Errou Dobrado")
+                        Resultado.clear()
+                        ResultadoD.clear()
+                        ResultadoW.clear()
+                        ResultadoL.clear()
+                        Alerta.clear()
+                        time.sleep(225)
+                        Varrer()
                         Varrer()
                     if ResultadoL == RLossD:
                         print("Errou Dobrado")
+                        Resultado.clear()
+                        ResultadoD.clear()
+                        ResultadoW.clear()
+                        ResultadoL.clear()
+                        Alerta.clear()
+                        time.sleep(225)
                         Varrer()
                     if ResultadoL == BlossB:
                         print("Errou Dobrado")
+                        Resultado.clear()
+                        ResultadoD.clear()
+                        ResultadoW.clear()
+                        ResultadoL.clear()
+                        Alerta.clear()
+                        time.sleep(70)
                         Varrer()
                     if ResultadoL == RLossB:
                         print("Errou Dobrado")
+                        Resultado.clear()
+                        ResultadoD.clear()
+                        ResultadoW.clear()
+                        ResultadoL.clear()
+                        Alerta.clear()
+                        time.sleep(225)
                         Varrer()
                     if ResultadoL == BlossB2:
                         print("Errou Dobrado")
+                        Resultado.clear()
+                        ResultadoD.clear()
+                        ResultadoW.clear()
+                        ResultadoL.clear()
+                        Alerta.clear()
+                        time.sleep(225)
                         Varrer()
                     if ResultadoL == RLossB2:
                         print("Errou Dobrado")
+                        Resultado.clear()
+                        ResultadoD.clear()
+                        ResultadoW.clear()
+                        ResultadoL.clear()
+                        Alerta.clear()
+                        time.sleep(225)
                         Varrer()
                     Alerta = Resultado[0:4]
                     print("5X TENTAR", Resultado)
@@ -561,126 +733,152 @@ def Varrer():
                 print("Errou Dobrado")
                 Loss += 1
                 Carteira -= 10
-                time.sleep(80)             ###### Para não repetir função
+                Erramos()
+                ###### Para não repetir função
             if ResultadoL == RLoss:
                 print("Errou Dobrado")
                 Loss += 1
                 Carteira -= 10
-                time.sleep(80)             ###### Para não repetir função
+                Erramos()
+                ###### Para não repetir função
             if ResultadoL == BlossD:
                 print("Errou Dobrado")
                 Loss += 1
                 Carteira -= 10
-                time.sleep(80)             ###### Para não repetir função
+                Erramos()
+                ###### Para não repetir função
             if ResultadoL == RLossD:
                 print("Errou Dobrado")
                 Loss += 1
                 Carteira -= 10
-                time.sleep(80)             ###### Para não repetir função
+                Erramos()
+                ###### Para não repetir função
             if ResultadoL == BlossB:
                 print("Errou Dobrado")
                 Loss += 1
                 Carteira -= 10
-                time.sleep(80)             ###### Para não repetir função
+                Erramos()
+                ###### Para não repetir função
             if ResultadoL == RLossB:
                 print("Errou Dobrado")
                 Loss += 1
                 Carteira -= 10
-                time.sleep(80)             ###### Para não repetir função
+                Erramos()
+                ###### Para não repetir função
             if ResultadoL == BlossB2:
                 print("Errou Dobrado")
                 Loss += 1
                 Carteira -= 10
-                time.sleep(80)             ###### Para não repetir função
+                Erramos()
+                ###### Para não repetir função
             if ResultadoL == RLossB2:
                 print("Errou Dobrado")
                 Loss += 1
                 Carteira -= 10
-                time.sleep(80)             ###### Para não repetir função
+                Erramos()
+                ###### Para não repetir função
             elif ResultadoD == RD:
                 print("Dobrado")
+                ErrouDobre()
                 # time.sleep(80)             ###### Para não repetir função
             elif ResultadoD == BD:
                 print("Dobrado")
+                ErrouDobre()
                 # time.sleep(80)             ###### Para não repetir função
             elif ResultadoD == RDB:
                 print("Dobrado")
+                ErrouDobre()
                 # time.sleep(80)             ###### Para não repetir função
             elif ResultadoD == BDB:
                 print("Dobrado")
+                ErrouDobre()
                 # time.sleep(80)             ###### Para não repetir função
             elif ResultadoW == BW:
                 print("Acerto")
                 Carteira += 5
                 Win += 1
                 Verificar += 1
+                Acertamos()
             elif ResultadoW == RW:
                 print("Acerto")
                 Carteira += 5
                 Win += 1
                 Verificar += 1
+                Acertamos()
             elif ResultadoW == BWB:
                 print("Acerto Dps do branco")
                 Carteira += 5
                 Win += 1
                 Verificar += 1
+                Acertamos()
             elif ResultadoW == RWB:
                 print("Acerto Dps do branco")
                 Carteira += 5
                 Win += 1
                 Verificar += 1
+                Acertamos()
             elif ResultadoWD == BDW:
                 print("Acerto")
                 Carteira += 5
-                Win += 1
+                WinD += 1
                 Verificar += 1
+                Acertamos()
             elif ResultadoWD == RDW:
                 print("Acerto")
                 Carteira += 5
-                Win += 1
+                WinD += 1
                 Verificar += 1
+                Acertamos()
             elif ResultadoWD == BDWB:
                 print("Acerto Dps do branco")
                 Carteira += 5
-                Win += 1
+                WinD += 1
                 Verificar += 1
+                Acertamos()
             elif ResultadoWD == RDWB:
                 print("Acerto Dps do branco")
                 Carteira += 5
-                Win += 1
+                WinD += 1
                 Verificar += 1
+                Acertamos()
             elif Resultado == R:
                 print("Jogar")
                 print("Jogar")
                 print("Jogar")
                 print("Jogar")
-                #ConfirmarPreto()
+                ConfirmarPreto()
             elif Resultado == B:
                 print("Jogar")
                 print("Jogar")
                 print("Jogar")
-                #ConfirmarPreto()
-            elif Alerta == AlertaR:
-                print("Alerta")
-                print("Alerta")
-                #AlertarVermelho()
-            elif Alerta == AlertaB:
-                print("Alerta")
-                print("Alerta")
-                #AlertarVermelho()
+                ConfirmarVermelho()
             elif Resultado == BB:
                 print("Jogar Vermelho")
                 print("Jogar Vermelho")
                 print("Jogar Vermelho")
-                #ConfirmarVermelho()
+                ConfirmarVermelho()
             elif Resultado == RB:
                 print("Jogar Preto")
                 print("Jogar Preto")
                 print("Jogar Preto")
-                #ConfirmarPreto()
-            elif Giros == 150:
+                ConfirmarPreto()
+            elif Alerta == AlertaR:
+                print("Alerta")
+                print("Alerta")
+                AlertarPreto()
+            elif Alerta == AlertaB:
+                print("Alerta")
+                print("Alerta")
+                AlertarVermelho()
+            elif Giros == 20:
+                Giros = 0
                 Resultados()
-
+            elif Giros == 21:
+                Giros = 0
+                Resultados()
+            elif Giros == 22:
+                Giros = 0
+                Resultados()
             print(Win)
             print(Loss)
             print(f"R${Carteira}")
