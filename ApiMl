@@ -1,0 +1,41 @@
+Token = {'client_id': '',
+           'client_secret': '',
+           'code': '',
+           'grant_type': 'authorization_code',
+           'redirect_uri': ''}
+
+Refresh = {'client_id': '',
+           'client_secret': '',
+            'grant_type': 'refresh_token',
+             'refresh_token': ''}
+
+
+TokenAcess = {'Authorization': 'Bearer $Token'}
+TheBasic = requests.get('https://api.mercadolibre.com/orders/search?seller=$SellerId', headers= TokenAcess)
+TheBasic = TheBasic.json()
+ENTRA NA LISTA DENTRO DO DICIONÁRIO.
+for results in TheBasic['results']:
+    for payments in results['payments']:
+        for ordem_items in results['order_items']:
+            OrderId = payments['order_id']
+            Sku = ordem_items['item']['seller_sku']
+            QuantitySold = ordem_items['quantity']
+            jsonfile = json.dumps(TheBasic)
+
+            # CRIA UM ARQUIVO PARA VEFICAR SE A VENDA JÁ FOI EMITIDA E SALVA INFORMAÇÕES DA REQUEST.
+            try:
+                with open(f"{OrderId}.json", "x") as outfile:
+                    outfile.write(jsonfile)
+                    #FUNÇÃO PARA EMITIR VENDA
+                InfoCompra = requests.get(f'https://api.mercadolibre.com/orders/{OrderId}',headers=TokenAcess)
+                InfoCompra = InfoCompra.json()
+                PedidoEnd = requests.get(f'https://api.mercadolibre.com/orders/{OrderId}/shipments',headers=TokenAcess)
+                PedidoEnd = PedidoEnd.json()
+                print("Endereço Pedido", PedidoEnd)
+                print(InfoCompra)
+                print(InfoCompra['buyer']['nickname'])
+                print(InfoCompra['buyer']['email'])
+
+            except:
+                print("Venda Já emitida {}".format(OrderId))
+                pass
