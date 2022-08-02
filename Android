@@ -1,0 +1,98 @@
+from kivymd.app import MDApp
+from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.lang import Builder
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
+from kivy.uix.boxlayout import BoxLayout
+
+
+class LoginScreen(BoxLayout):
+    pass
+
+class QuestionAccount(BoxLayout):
+    pass
+
+class MainWindow(Screen):
+    pass
+
+
+class MainApp(MDApp):
+    dialog = None
+    def build(self):
+        Builder.load_file("App.kv")
+        sm = ScreenManager()
+        sm.add_widget(MainWindow())
+        return sm
+
+    def Check_User_CreatedAccount_Dialog(self):
+        self.dialogcheckaccount = None
+        if not self.dialogcheckaccount:
+            self.dialogcheckaccount = MDDialog(
+                title="Você já possui conta no nosso aplicativo?",
+                type="custom",
+                content_cls=QuestionAccount(),
+                buttons=[
+                    MDFlatButton(
+                        text="Não",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=self.dialog_close,
+                    ),
+                    MDFlatButton(
+                        text="Sim",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_press=self.show_confirmation_dialog,
+
+                    ),
+                ],
+            )
+        self.dialogcheckaccount.open()
+
+
+    def show_confirmation_dialog(self, *args):
+        self.dialog = None
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title="Conectar:",
+                type="custom",
+                content_cls=LoginScreen(),
+                buttons=[
+                    MDFlatButton(
+                        text="CANCEL",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=self.dialog_close,
+                    ),
+                    MDFlatButton(
+                        text="OK",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_press=self.dialog_login_complete,
+
+                    ),
+                ],
+            )
+        self.dialog.open()
+
+    def dialog_login_complete(self, args):
+        self.DialogEmail= self.dialog.content_cls.ids.Email.text
+        self.DialogPassword = self.dialog.content_cls.ids.Password.text
+        print(f"Email: {self.DialogEmail}, Senha: {self.DialogPassword}")
+        try:
+            self.dialog.dismiss(force=True)  # Close dialog
+            self.dialogcheckaccount.dismiss(force=True)  # Close dialog
+        except:
+            pass
+
+
+    def dialog_close(self, *args):
+        try:
+             self.dialog.dismiss(force=True) # Close dialog
+             self.dialogcheckaccount.dismiss(force=True) # Close dialog
+        except:
+            pass
+
+
+
+MainApp().run()
