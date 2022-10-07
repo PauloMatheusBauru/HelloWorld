@@ -1,0 +1,1042 @@
+#:import threading threading
+#:import NoTransition kivy.uix.screenmanager.NoTransition
+#: import Clock kivy.clock.Clock
+
+
+<ConfirmarCompra>:
+    MDBoxLayout:
+        orientation: "vertical"
+        size_hint_x: 0.9
+        size_hint_y: 1
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y: 0.20
+            orientation: "horizontal"
+            FitImage:
+                elevation: 10
+                size_hint_y: None
+                size_hint_x: None
+                source: "https://www.seekpng.com/png/detail/138-1387819_admin-login-icon-png-number-four.png"
+            MDLabel:
+                size_hint_y: None
+                size_hint_x: 0.8
+                id: NomeCompletoLogado
+                name: NomeCompletoLogado
+                text: root.NomeCompleto
+                font_size: "25sp"
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y: 0.1
+            orientation: "horizontal"
+            padding: 0
+            MDIcon:
+                icon: "fingerprint"
+                size_hint_x: 1
+            MDLabel:
+                size_hint_x: None
+                id: Cpf
+                name: Cpf
+                text: root.Cpf
+                size_hint_x: 1
+                halign: "right"
+
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y: 0.1
+            orientation: "horizontal"
+            padding: 0
+            MDIcon:
+                icon: "email"
+                size_hint_x: 1
+            MDLabel:
+                size_hint_x: None
+                id: EmailLogado
+                name: EmailLogado
+                text: root.Email
+                size_hint_x: 1.1
+                halign: "right"
+
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y: 0.15
+            orientation: "horizontal"
+            MDTextField:
+                hint_text: "Confirme Seu CEP"
+                id: Cep
+                name: Cep
+                text: root.Cep
+                icon_right: "pencil"
+
+
+            MDTextField:
+                hint_text: "Número Residência"
+                id: NumeroResidencia
+                name: NumeroResidencia
+                text: root.NumeroResidencia
+                icon_right: "pencil"
+
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y: 0.3
+            orientation: "vertical"
+
+            MDLabel:
+                text: "Confirme seus dados antes do pagamento"
+                halign: "center"
+                pos_hint: {"center_x": .5, "center_y":1}
+
+            MDFillRoundFlatButton:
+                size_hint_x: 1
+                md_bg_color: 255/255,98/255,0/255,1
+                text: "Confirmar Dados do pagamento"
+                on_release: app.Pagamentos()
+
+
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y:0.9
+            orientation: "vertical"
+
+            FitImage:
+                size_hint_y: None
+                size_hint_x: None
+                height: 180
+                width: 480
+                pos_hint: {"center_x": .5, "center_y":1}
+                source: 'https://cdn2.shopify.com/s/files/1/0247/8348/7050/files/mercadopago-logo_600x600.png?v=1563383038'
+
+<ProdutosPedido>:
+    size_hint_y: None
+    size_hint_x: 1
+    size: "350dp", "150dp"
+
+    MDLabel:
+        text: "AAAA"
+<OrdemPedido>
+    orientation: "vertical"
+    padding: "8dp"
+    size_hint: 1, None
+    size: "340dp", "150dp"
+    pos_hint: {"center_x": .5, "center_y": 0}
+    haling: "center"
+    elevation: 10
+    line_color: 255/255,98/255,0/255,1
+
+    GridLayout:
+        size_hint_x: 1
+        cols: 2
+        MDBoxLayout:
+            size_hint_x: 0.6
+            orientation: "vertical"
+            MDBoxLayout:
+                md_bg_color: 1,1,1,1
+                size_hint_x: 1
+                size_hint_y: 0.3
+                MDIcon:
+                    icon: "chart-donut"
+                    size_hint: 0.2, 1
+                    theme_text_color: "Custom"
+                    text_color: 255/255,98/255,0/255,1
+                MDLabel:
+                    size_hint: 1, 1
+                    text: root.IDPedido
+                    theme_text_color: "Secondary"
+                    font_size: "14"
+                    halign: "left"
+                    bold: True
+
+            MDBoxLayout:
+                md_bg_color: 1,1,1,1
+                size_hint_x: 1
+                size_hint_y: 0.3
+                MDIcon:
+                    icon: "truck"
+                    size_hint: 0.2, 1
+                MDLabel:
+                    size_hint: 1, 1
+                    text: root.Despachado
+                    theme_text_color: "Secondary"
+                    font_size: "14"
+                    bold: True
+                    pos_hint: {"center_x": 0.0}
+
+        MDBoxLayout:
+            size_hint_x: 0.4
+            size_hint_y: None
+            orientation: "vertical"
+            MDRectangleFlatIconButton:
+                text: "Cancelar Compra"
+                icon: "language-python"
+                font_size: "14"
+                line_color: 0, 0, 0, 0
+                pos_hint: {"center_x": 0.5}
+                theme_text_color: "Custom"
+                theme_icon_color: "Custom"
+                text_color: 255/255,98/255,0/255,1
+                icon_color: 255/255,98/255,0/255,1
+                on_release:  root.Cancelamento()
+
+            MDRectangleFlatIconButton:
+                text: "Produto com defeito"
+                icon: "format-list-bulleted-type"
+                theme_text_color: "Custom"
+                font_size: "14"
+                theme_icon_color: "Custom"
+                text_size: "25"
+                line_color: 0, 0, 0, 0
+                pos_hint: {"center_x": 0.5}
+                text_color: 255/255,98/255,0/255,1
+                icon_color: 255/255,98/255,0/255,1
+                on_release:  root.TrocaProdutoComDefeito()
+<Pedidos>:
+    RecycleView:
+        id: rvPedidos
+        viewclass: "OrdemPedido"
+        do_scroll_x: False
+        do_scroll_y: True
+        size_hint_y: 1
+        RecycleGridLayout:
+            cols: 1
+            id: OrdemPedido
+            adaptive_size: False
+            spacing: "5dp"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            size_hint_y: None
+            default_size: None, None
+            default_size_hint: 1, None
+            height: self.minimum_height
+
+
+<SettingsConta>:
+    MDBoxLayout:
+        orientation: "vertical"
+        size_hint_x: 0.9
+        size_hint_y: 1
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y: 0.20
+            orientation: "horizontal"
+            FitImage:
+                elevation: 10
+                size_hint_y: None
+                size_hint_x: None
+                source: "https://www.seekpng.com/png/detail/138-1387819_admin-login-icon-png-number-four.png"
+            MDLabel:
+                size_hint_y: None
+                size_hint_x: 0.8
+                id: NomeCompletoLogado
+                name: NomeCompletoLogado
+                text: root.NomeCompleto
+                font_size: "25sp"
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y: 0.1
+            orientation: "horizontal"
+            padding: 0
+            MDIcon:
+                icon: "fingerprint"
+                size_hint_x: 1
+            MDLabel:
+                size_hint_x: None
+                id: Cpf
+                name: Cpf
+                text: root.Cpf
+                size_hint_x: 1
+                halign: "right"
+
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y: 0.1
+            orientation: "horizontal"
+            padding: 0
+            MDIcon:
+                icon: "email"
+                size_hint_x: 1
+            MDLabel:
+                size_hint_x: None
+                id: EmailLogado
+                name: EmailLogado
+                text: root.Email
+                size_hint_x: 1
+                halign: "right"
+
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y: 0.15
+            orientation: "horizontal"
+            MDTextField:
+                id: Cep
+                name: Cep
+                text: root.Cep
+                icon_right: "pencil"
+
+
+            MDTextField:
+                id: NumeroResidencia
+                name: NumeroResidencia
+                text: root.NumeroResidencia
+                icon_right: "pencil"
+
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y: 0.3
+            orientation: "vertical"
+
+            MDFillRoundFlatButton:
+                halign: "center"
+                size_hint_x: 1
+                text: "Salvar"
+                font_size: "15sp"
+                md_bg_color: 255/255,98/255,0/255,1
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                on_press: app.Logar()
+
+            MDSeparator:
+                height: "5dp"
+                size_hint_y: None
+                md_bg_color: 1,1,1,1
+
+            MDFillRoundFlatButton:
+                halign: "center"
+                valign: "bottom"
+                text: "Deslogar"
+                size_hint_x: 1
+                font_size: "15sp"
+                md_bg_color: 0,0,0,0.4
+                on_press: app.Deslogar()
+        MDBoxLayout:
+            size_hint_x: 1
+            size_hint_y:1
+            orientation: "vertical"
+
+<Cadastrar>:
+    GridLayout:
+        cols: 1
+        height: self.minimum_height
+        padding: 5
+        spacing: 5
+        MDTextField:
+            id: Email
+            name: Email
+            size_hint_y: None
+            size_hint_x: 0.5
+            icon_right: "email"
+            hint_text: "Email"
+            icon_left_color_focus: 0, 1, 0, 1
+
+        MDTextField:
+            id: Senha
+            size_hint_y: None
+            size_hint_x: 0.5
+            icon_right: "key-variant"
+            hint_text: "Senha"
+            icon_left_color_focus: 0, 1, 0, 1
+
+        MDTextField:
+            id: Cep
+            size_hint_y: None
+            size_hint_x: 0.5
+            icon_right: "map-marker"
+            hint_text: "Cep"
+            icon_left_color_focus: 0, 1, 0, 1
+
+
+        MDTextField:
+            id: NumeroCasa
+            size_hint_y: None
+            size_hint_x: 0.5
+            icon_right: "home"
+            hint_text: "Numero Residência"
+            icon_left_color_focus: 0, 1, 0, 1
+
+
+        MDTextField:
+            id: Cpf
+            size_hint_y: None
+            size_hint_x: 0.5
+            icon_right: "badge-account-horizontal"
+            hint_text: "Cpf ou Cnpj"
+            icon_left_color_focus: 0, 1, 0, 1
+            max_text_length: 14
+
+        MDTextField:
+            id: Nome
+            size_hint_y: None
+            size_hint_x: 0.5
+            icon_right: "account"
+            hint_text: "Nome Completo"
+            icon_left_color_focus: 0, 1, 0, 1
+
+        MDTextField:
+            id: Telefone
+            size_hint_y: None
+            size_hint_x: 0.5
+            icon_right: "phone"
+            hint_text: "Telefone"
+            icon_left_color_focus: 0, 1, 0, 1
+
+    BoxLayout:
+        size_hint_x: 1
+        size_hint_y: 1
+        orientation: "vertical"
+        MDRoundFlatIconButton:
+            icon: "account-check"
+            icon_color: 255/255,98/255,0/255,1
+            line_color: 255/255,98/255,0/255,1
+            text: "Finalizar Cadastro"
+            text_color: 255/255,98/255,0/255,1
+            pos_hint: {"center_x": 0.5, "center_y": 0.4}
+            on_release: app.Create_Account()
+
+        MDSeparator:
+            height: "5dp"
+            size_hint_y: None
+            md_bg_color: 1,1,1,1
+
+        MDFillRoundFlatIconButton:
+            md_bg_color: 255/255,98/255,0/255,1
+            icon: "arrow-left"
+            icon_color: 0,0,0,0.7
+            text: "Voltar"
+            pos_hint: {"center_x": 0.5, "center_y": 0.4}
+            on_press: root.manager.current = 'MainWindow'
+<Logado>:
+    GridLayout:
+        cols: 1
+        spacing: 5
+        padding: 5
+        MDCard:
+            size_hint_y: None
+            size_hint_x: 0.8
+            size: 400, 200
+            line_color: 255/255,98/255,0/255,1
+            line_width: 50
+            on_release: app.EditarConta()
+            MDBoxLayout:
+                orientation: "vertical"
+                MDIcon:
+                    halign: "center"
+                    icon: "account-cog"
+                    text_color: 255/255,98/255,0/255,1
+                    font_size : 48
+                MDLabel:
+                    halign: "center"
+                    text: "Editar conta e endereço de entrega"
+        MDCard:
+            size_hint_y: None
+            size_hint_x: 0.8
+            size: 400, 200
+            line_color: 248/255,17/255,17/255,0.8
+            line_width: 50
+            on_release:
+                app.Pedidos()
+                app.OrdemPedidos()
+            MDBoxLayout:
+                orientation: "vertical"
+                MDIcon:
+                    halign: "center"
+                    icon: "dolly"
+                    text_color: 255/255,98/255,0/255,1
+                    font_size : 48
+                MDLabel:
+                    halign: "center"
+                    text: "Pedidos aprovados"
+
+<ProdutosCarrinho>:
+    type_swipe: "hand"
+    size_hint_y: None
+    size_hint_x: 1
+    width: self.width
+    swipe_distance: 800
+    size: "350dp", "150dp"
+    opening_time: 0.0
+    MDCardSwipeLayerBox:
+        opening_time: 0.0
+        padding: "0dp"
+        elevation: 10
+        radius: [19, ]
+        size_hint_y: None
+        size_hint_x: None
+        md_bg_color: 248/255,17/255,17/255,0.8
+        MDLabel:
+            size_hint_y: None
+            size_hint_x: None
+            size: 300, 100
+            icon_size: "10"
+            md_bg_color: 248/255,17/255,17/255,0.8
+            pos_hint: {'center_x': 1, 'center_y': 0.5}
+            FloatLayout:
+                size_hint_y: None
+                size_hint_x: None
+                MDFloatingActionButton:
+                    size_hint_y: None
+                    size_hint_x: None
+                    icon_color: 1,1,1,1
+                    icon_size: "64sp"
+                    md_bg_color: 248/255,17/255,17/255,0.8
+                    icon: "trash-can"
+                    on_release:
+                        root.RemoverCarrinho(root)
+                        app.RemoverCarrinho(root)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+    MDCardSwipeFrontBox:
+        opening_time: 0.0
+        type_swipe: "auto"
+        size_hint_y: 1
+        size_hint_x: 1
+        width: self.width
+        size: "350dp", "150dp"
+        swipe_distance: 800
+        opening_time: 0.1
+        FloatLayout:
+            size_hint: 1, 1
+            size: root.size
+            id: FrenteDeslizar
+            MDIconButton:
+                icon: "delete"
+                id: Delete
+                pos_hint: {'center_x': 0.95, 'center_y': 0.9}
+                on_release:
+                    root.RemoverCarrinho()
+                    app.RemoverCarrinho(root)
+                    app.AtualizarValores()
+            MDLabel:
+                size_hint_x: 0.6
+                size_hint_y: 1.5
+                id: label
+                font_size: "18sp"
+                text: root.Titulo
+                color: .2, .2, .2, .8
+                pos_hint: {'center_x': 0.60}
+
+            MDIcon:
+                color: 255/255,98/255,0/255,1
+                size_hint_x: 1
+                icon: "shield-check"
+                font_size: 15
+                pos_hint: {'center_x': 0.79, 'center_y': 0.4}
+
+            MDLabel:
+                size_hint_x: 0.5
+                id: label
+                text: "Garantia de 90 dias"
+                font_size: "10sp"
+                color: .2, .2, .2, .8
+                pos_hint: {'center_x': 0.57, 'center_y': 0.4}
+
+
+            MDBoxLayout:
+                id: BoxLayoutQuantidade
+                md_bg_color: 1,1,1,1
+                size_hint_y: 0.1
+                size_hint_x: 0.3
+                pos_hint: {'center_x': 0.40, 'center_y': 0.1}
+
+                MDIconButton:
+                    icon: "plus-circle"
+                    on_press:
+                        root.Add()
+                        app.AtualizarValores()
+
+                    halign: "left"
+                    pos_hint: {'center_y': 0.5}
+
+                MDLabel:
+                    id: QuantidadeProdutos
+                    text: "1"
+                    halign: "center"
+
+                MDIconButton:
+                    icon: "minus-circle"
+                    on_press:
+                        root.Remove()
+                        app.AtualizarValores()
+                    halign: "right"
+                    pos_hint: {'center_y': 0.5}
+
+            FitImage:
+                elevation: 10
+                radius: [19, ]
+                size_hint_y: None
+                size_hint_x: None
+                source: root.Img
+                height: 130
+                width: 110
+                pos_hint: {'center_x': 0.15, 'center_y': 0.5}
+
+            MDLabel:
+                id: label
+                text: root.Preco
+                font_size: "22sp"
+                halign: "right"
+                bold: True
+                color: 255/255,98/255,0/255,1
+                pos_hint: {'center_y': 0.1}
+<SpinnerPaulo>
+    size_hint: None, None
+    size: dp(130), dp(130)
+    pos_hint: {'center_x': .5, 'center_y': .5}
+    color: 255/255,98/255,0/255,1
+
+<MD2Card>
+    id: MD2Card
+    size_hint: 1, 0.92
+    md_bg_color: 1,0,0,1
+    orientation: "vertical"
+    FitImage:
+        size_hint_y: 1
+        size_hint_x: 1
+        source: "logo.jpg"
+    MDBoxLayout:
+        size_hint_y: 1
+        size_hint_x: 1
+        MDCard:
+            size_hint_y: 0.5
+            size_hint_x: 0.5
+            MDLabel:
+                text: "A"
+
+<MD3Card>
+    padding: 1
+    size_hint: 1, None
+    size: "200dp", "300dp"
+    radius: 20, 20, 0, 0
+    on_release:
+        app.sm.current = 'InfoItem'
+        root.InformacoesAtt()
+        app.AtualizarValoresDescrição()
+    MDRelativeLayout:
+        AsyncImage:
+            source: root.UrlImagem
+            size_hint_y: 0.7
+            pos_hint: {"top": 1}
+            radius: 20, 20, 0, 0
+            width: 200
+            allow_stretch: True
+            keep_ratio: True
+
+        MDLabel:
+            size_hint_x: 1
+            id: label
+            text: root.Titulo
+            adaptive_size: False
+            halign: "center"
+            font_size: 20
+            adaptive_size: False
+            color: "black"
+            pos: "1dp", "-75dp"
+            bold: True
+
+
+        MDIconButton:
+            icon: "dots-vertical"
+            pos_hint: {"top": 1, "right": 1}
+            font_color: "orange"
+            pos: "20dp", "-115dp"
+
+
+        MDGridLayout:
+            size_hint: 1, None
+            cols: 3
+
+            MDIcon:
+                icon: "shield-check"
+                font_size: 15
+                color: 255/255,98/255,0/255,1
+                halign: 'right'
+
+            MDLabel:
+                id: label
+                text: "Garantia de 90 dias"
+                adaptive_size: False
+                color: "black"
+                halign: 'center'
+                font_size: 12
+                pos: "0dp", "-115dp"
+                bold: True
+
+            MDIcon:
+                icon: "shield-check"
+                font_size: 15
+                color: 255/255,98/255,0/255,1
+                halign: 'left'
+
+
+        MDLabel:
+            id: label
+            text: root.Preco
+            adaptive_size: False
+            color: 255/255,98/255,0/255,1
+            halign: 'center'
+            font_size: 25
+            pos: "0", "-137dp"
+            bold: True
+
+<MainWindow>:
+    name: "MainWindow"
+    id: MainWindow
+    MDBottomNavigation:
+        id: tabs
+        panel_color: 0, 0, 0, 0
+        text_color_active: 255/255,98/255,0/255,1
+        text_color_normal: 0, 0, 0, 1
+        MDBottomNavigationItem:
+            name: 'Compra'
+            text: 'Compra'
+            id: Compra
+            icon: 'cart-check'
+            icon_color: 0,0,0,1
+            focus_color: 1, 0, 1, 1
+            MDToolbar:
+                md_bg_bottom_color: 0, 0, 0, 1
+                icon_color: self.md_bg_bottom_color
+                pos_hint:{"top": 1}
+                md_bg_color: 255/255,98/255,0/255,1
+                radius: 36, 36, 36, 36
+                elevation: 10
+                MDTextField:
+                    id: Pesquisar
+                    hint_text: "Pesquisar"
+                    text_color: 1, 1, 1, 1
+                    size_hint_x: 100
+                    hint_color: 1,1,1,1
+                    line_color_normal: 1,1,1,1
+                    current_hint_text_color: 1,1,1,1
+                    multiline: False
+                    keyboard_suggestions: True
+
+                MDIconButton:
+                    icon: "magnify"
+                    theme_text_color: "Custom"
+                    text_color: 1,1,1,1
+                    md_bg_color: 255/255,98/255,0/255,1
+                    icon_size: "20sp"
+                    halign: 'right'
+                    on_release: app.Pesquisar()
+
+            RecycleView:
+                id: rv
+                viewclass: "MD3Card"
+                do_scroll_x: False
+                do_scroll_y: True
+                size_hint_y: 0.92
+                RecycleGridLayout:
+                    cols: 2
+                    id: box
+                    adaptive_size: False
+                    spacing: "5dp"
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    size_hint_y: None
+                    default_size: None, None
+                    default_size_hint: 1, None
+                    height: self.minimum_height
+                    opacity: 0
+            MDGridLayout:
+                cols: 1
+                id: MD2Card
+                size_hint: 1, 0.89
+                md_bg_color: 1,1,1,1
+                AsyncImage:
+                    size_hint_y: 1
+                    pos_hint: {"top": 1.5}
+                    radius: 20, 20, 0, 0
+                    width: 600
+                    allow_stretch: True
+                    keep_ratio: True
+                    source: "logo.jpg"
+                MDBoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: 0.2
+                    size_hint_x: 1
+                    MDCard:
+                        size: "200dp", "160dp"
+                        size_hint_y: None
+                        size_hint_x: 1
+                        orientation: "vertical"
+                        pos_hint: {"center_x": 1, "center_y": 1}
+                        MDFloatingActionButton:
+                            md_bg_color: 255/255,98/255,0/255,1
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            icon: "spray-bottle"
+                            halign: "center"
+                            on_release: root.CategoriaLimpeza()
+
+                        MDLabel:
+                            text: "Limpeza"
+                            halign: "center"
+                    MDCard:
+                        size_hint_y: None
+                        size_hint_x: 1
+                        orientation: "vertical"
+                        pos_hint: {"center_x": 1, "center_y": 1}
+                        size: "200dp", "160dp"
+                        MDFloatingActionButton:
+                            md_bg_color: 255/255,98/255,0/255,1
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            icon: "lightbulb-on"
+                            halign: "center"
+                            on_release: app.Lampadas()
+
+                        MDLabel:
+                            text: "Lampadas"
+                            halign: "center"
+                    MDCard:
+                        size: "200dp", "160dp"
+                        size_hint_y: None
+                        size_hint_x: 1
+                        orientation: "vertical"
+                        pos_hint: {"center_x": 1, "center_y": 1}
+                        MDFloatingActionButton:
+                            md_bg_color: 255/255,98/255,0/255,1
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            icon: "oil-level"
+                            halign: "center"
+                            on_release: root.CategoriaOleo()
+                        MDLabel:
+                            text: "Óleo"
+                            halign: "center"
+                MDCard:
+                    on_release: app.GoogleMaps()
+                    size_hint_x: 1
+                    AsyncImage:
+                        size_hint_y: 0.9
+                        pos_hint: {"top": 1}
+                        radius: 20, 20, 0, 0
+                        width: 350
+                        allow_stretch: True
+                        keep_ratio: True
+                        source: "Map.jpg"
+                        MDIconButton:
+                            id: icon
+                            icon: "Python"
+                            user_font_size: "56sp"
+
+        MDBottomNavigationItem:
+            name: 'Finalizar Pedido'
+            text: 'Finalizar Pedido'
+            icon: 'cart-check'
+            id: Carrinho
+            icon_color: 0,0,0,0
+            text_color: 0,0,0,0
+            RecycleView:
+                do_scroll_x: False
+                do_scroll_y: True
+                size_hint_y: 1
+                GridLayout:
+                    id: ProdutosCarrinho
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+
+            MDBoxLayout:
+                md_bg_bottom_color: 0, 0, 0, 1
+                icon_color: self.md_bg_bottom_color
+                pos_hint:{"top": 0.12}
+                size_hint_y: 1
+                size_hint_x: 1
+                md_bg_color: 255/255,98/255,0/255,1
+                MDLabel:
+                    size_hint_y: None
+                    size_hint_x: 1
+                    text_color: 1,1,1,1
+                    theme_text_color: "Custom"
+                    text: "TOTAL:"
+                    halign: "left"
+                    bold: True
+                    pos_hint: {'center_x': 1, 'center_y': 0.98}
+
+                MDFillRoundFlatButton:
+                    halign: "center"
+                    text: "Finalizar Compra"
+                    font_size: "15sp"
+                    md_bg_color: 60/255,179/255,113/255,1
+                    bold: True
+                    on_press: app.ConfirmarDadosPagamento()
+                    pos_hint: {'center_x': 1, 'center_y': 0.98}
+
+
+                MDLabel:
+                    size_hint_y: None
+                    size_hint_x: 1
+                    id: TotalCarrinho
+                    text_color: 1,1,1,1
+                    theme_text_color: "Custom"
+                    halign: "right"
+                    bold: True
+                    text: "R$ 0.0"
+                    pos_hint: {'center_x': 1, 'center_y': 0.98}
+
+        MDBottomNavigationItem:
+            id: Conta
+            name: 'Conta'
+            text: 'Conta'
+            icon: 'account'
+            icon_color: 0,0,0,1
+            focus_color: 1, 0, 1, 1
+            on_tab_press: app.VerificarLogado()
+            MDBoxLayout:
+                size_hint_y: 1
+                size_hint_x: 1
+                orientation: 'vertical'
+                adaptive_size: False
+                pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+
+                FitImage:
+                    elevation: 10
+                    size_hint_y: None
+                    size_hint_x: 1
+                    source: "logo.jpg"
+                    height: 400
+                    width: 400
+
+                MDTextField:
+                    id: Email
+                    size_hint_y: None
+                    size_hint_x: 0.9
+                    icon_right: "email"
+                    hint_text: "Email"
+                    icon_left_color_focus: 0, 1, 0, 1
+                    pos_hint: {"center_x":  0.5, "center_y": 1}
+
+                MDTextField:
+                    id: Senha
+                    size_hint_y: None
+                    size_hint_x: 0.9
+                    icon_right: "key-variant"
+                    password: True
+                    hint_text: "Senha"
+                    icon_left_color_focus: 0, 1, 0, 1
+                    pos_hint: {"center_x":  0.5, "center_y": 1}
+
+                MDFillRoundFlatButton:
+                    size_hint_x: 0.9
+                    halign: "center"
+                    text: "Conectar"
+                    font_size: "25sp"
+                    pos_hint: {"center_x": 0.5, "center_y": 1}
+                    md_bg_color: 255/255,98/255,0/255,1
+                    on_press: app.Logar()
+
+                MDSeparator:
+                    height: "5dp"
+                    size_hint_y: None
+                    md_bg_color: 1,1,1,1
+
+                MDFillRoundFlatButton:
+                    size_hint_x: 0.9
+                    halign: "center"
+                    text: "Cadastrar"
+                    font_size: "22sp"
+                    pos_hint: {"center_x": 0.5, "center_y": 1}
+                    md_bg_color: 0,0,0,0.2
+                    on_press:
+                        root.manager.current = 'Cadastrar'
+
+<InfoItem>:
+    id: InfoItem
+    name: InfoItem
+    MDCard:
+        elevation: 10
+        radius: [19, ]
+        size_hint_y: 1
+        size_hint_x: 1
+        md_bg_color: 1,1,1,1
+        orientation: 'vertical'
+        size: 344, 595
+
+        MDCard:
+            size_hint_y: 0.20
+            size_hint_x: 0.95
+            pos_hint: {"center_x":0.5, "center_y": 1}
+            size: 100, 100
+            elevation: 30
+            radius: [5, ]
+            FloatLayout:
+                MDIconButton:
+                    icon: "close"
+                    pos_hint: {"center_x": 0.94, "center_y": 0.92}
+                    on_release:
+                        root.manager.current = 'MainWindow'
+                AsyncImage:
+                    id: ImgTrocar
+                    size_hint_y: 1
+                    size_hint_x: 1
+                    allow_stretch: True
+                    keep_ratio: True
+                    source: "https://http2.mlstatic.com/D_NQ_NP_763750-MLB40254979205_122019-O.webp"
+                    pos_hint:{'center_x':0.5, 'center_y':0.5}
+
+        MDSeparator:
+            height: "5dp"
+            size_hint_y: None
+
+        MDCard:
+            size_hint_y: 0.05
+            size_hint_x: 0.95
+            size: 100, 20
+            elevation: 30
+            radius: [5, ]
+            pos_hint: {"center_x":0.5, "center_y": 1}
+
+            MDLabel:
+                size_hint_y: 1
+                size_hint_x: 1
+                text_align:'center'
+                id: teste
+                text: "PRODUTO"
+                halign: "center"
+                pos_hint: {"center_y": 0.5}
+                bold: True
+        MDSeparator:
+            height: "5dp"
+            size_hint_y: None
+        MDCard:
+            size_hint_y: 0.40
+            size_hint_x: 0.95
+            size: 100, 20
+            elevation: 30
+            radius: [19, ]
+            pos_hint: {"center_x":0.5, "center_y": 1}
+            FloatLayout:
+                size_hint_y: 1
+                size_hint_x: 1
+                MDBoxLayout:
+                    md_bg_bottom_color: 0, 0, 0, 1
+                    icon_color: self.md_bg_bottom_color
+                    pos_hint:{"top": 1, "center_x":0.5}
+                    md_bg_color: 255/255,98/255,0/255,1
+                    size_hint_y: None
+                    size_hint_x: 1
+                    size: 40, 40
+                    MDLabel:
+                        halign: "center"
+                        text: "Descrição"
+                        size_hint_x: 1.5
+                RecycleView:
+                    do_scroll_x: False
+                    do_scroll_y: True
+                    size_hint_y: 0.78
+                    size_hint_x: 0.98
+                    pos_hint: {"center_x":0.5, "center_y": 0.5}
+                    GridLayout:
+                        cols: 1
+                        size_hint_y: None
+                        size_hint_x: 1
+                        height: self.minimum_height
+                        MDLabel:
+                            id: DescricaoInfo
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text: ""
+                MDFillRoundFlatButton:
+                    text: "Adicionar no Carrinho"
+                    md_bg_color: 255/255,98/255,0/255,1
+                    pos_hint: {"center_x":0.5, "center_y": 0.05}
+
+                    on_press:
+                        app.AddCart()
+                        Clock.schedule_once(app.AtualizarValores, 0)
