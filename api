@@ -1,0 +1,58 @@
+from flask import Flask, request, render_template
+from flask import json
+
+import mysql.connector
+
+mydb = mysql.connector.connect(host="localhost",
+                               port="3306",
+                               user="root",
+                               password="",
+                               database="usuarios"
+                               )
+mycursor = mydb.cursor(buffered=True)
+
+app = Flask(__name__)
+
+test = [
+    {'description': 'salary', 'amount': 5000}
+]
+@app.route("/")
+def Main():
+    return render_template("index.html")
+
+@app.route('/search/<string:text>', methods=['GET'])
+def SearchProduct(text):
+    mycursor.execute(f"SELECT * FROM produtos WHERE MATCH(TITULO, CATEGORIA, APLICACAO) AGAINST ('+{text}' IN BOOLEAN MODE)")
+    print(mycursor)
+    Products = []
+    for row in mycursor:
+        UrlImage = row[0]
+        Title = row[2]
+        Sku = row[1]
+        ProductPrice = row[3]
+        QuantityAvaible = row[4]
+        InfoProducts = {'UrlImage': f'{UrlImage}', 'Title': f'{Title}', 'Sku': f'{Sku}',
+               'ProductPrice': f'{ProductPrice}', 'QuantityAvaible': f'{QuantityAvaible}'}
+        Products.append(InfoProducts)
+        print(request.remote_addr)
+    response = json.dumps(Products)
+    return response, 200
+
+
+@app.route('/register', methods=['POST'])
+def RegisterUser():
+    #working in this
+    test.append(request.get_json(force=True, silent=True, cache=False))
+    print(test)
+    return '', 200
+
+
+@app.route('/search/itemid/<string:text>', methods=['GET'])
+def TakeDescription(text):
+    mycursor.execute(f"SELECT * FROM produtos WHERE SKU LIKE '{text}'")
+    for row in mycursor:
+        Description = row[5]
+    return Description, 200
+
+
+app.run()
