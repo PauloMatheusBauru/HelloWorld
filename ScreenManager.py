@@ -13,21 +13,16 @@ from kivy.uix.boxlayout import BoxLayout
 from kivymd.uix.card import MDCard
 from kivy.clock import Clock
 from kivymd.uix.spinner import MDSpinner
+import requests
 import re
-import socket, threading
 import ast
 import webbrowser
 from kivyoav.delayed import delayable
 from kivymd.toast import toast
+import json
 #
 Builder.load_file("my.kv")
 
-
-SERVER = "192.168.1.163"
-PORT = 8080
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect((SERVER, PORT))
-client.sendall(bytes("This is from Client",'UTF-8'))
 
 NomeProdutoDescrição = ""
 ImgDescrição = ""
@@ -320,61 +315,37 @@ class MainApp(MDApp):
 
     @delayable
     def Pesquisar1(self, *args):
+        yield 0.03
         Count = 0
         Pesquisa = self.root.get_screen("MainWindow").ids.Pesquisar.text
-        print(Pesquisa)
-        SendMsg = "Pesquisar:" + str(Pesquisa)
-        try:
-            client.sendall(bytes(SendMsg, 'UTF-8'))
-            self.root.get_screen("MainWindow").ids.rv.data = []
-        except:
-            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            client.connect((SERVER, PORT))
-            client.sendall(bytes(SendMsg, 'UTF-8'))
-            self.root.get_screen("MainWindow").ids.rv.data = []
-        while 1:
-            yield 0.5
-            in_data = client.recv(20000)
-            self.Recebido = in_data.decode()
-            if self.Recebido == "fim":
+        self.root.get_screen("MainWindow").ids.rv.data = []
+        data = requests.get(f"http://51.161.100.2:8080/search/{Pesquisa}")
+        data = data.json()
+        for self.Produtos in data:
+            self.TituloProduto = self.Produtos['Title']
+            self.UrlImagem = self.Produtos['UrlImage']
+            self.ValorProduto = self.Produtos['ProductPrice']
+            self.Sku = self.Produtos['Sku']
+            self.Descricao = "A"
+            Count += 1
+            yield 0.03
+            self.root.get_screen("MainWindow").ids.rv.data.append(
+                {'Titulo': str(self.TituloProduto), 'UrlImagem': str(self.UrlImagem),
+                 'Preco': "R$ " + str(self.ValorProduto),
+                 'Sku': str(self.Sku),
+                 'DescricaoProduto': str(self.Descricao)})
+            if Count == 20:
                 self.root.get_screen("MainWindow").ids.box.opacity = 1
-                self.root.get_screen("MainWindow").ids.Compra.remove_widget(self.Spinner)
                 self.Pesquisou = False
-                break
-            elif Count == 6:
-                self.root.get_screen("MainWindow").ids.box.opacity = 1
                 self.root.get_screen("MainWindow").ids.Compra.remove_widget(self.Spinner)
-
-                self.RequestLogin = ast.literal_eval(self.Recebido)
-                self.TituloProduto = self.RequestLogin['TituloProduto']
-                self.UrlImagem = self.RequestLogin['UrlImagem']
-                self.ValorProduto = self.RequestLogin['ValorProduto']
-                self.Sku = self.RequestLogin['Sku']
-                self.Descricao = self.RequestLogin['Descricao']
-                Count += 1
-                self.root.get_screen("MainWindow").ids.rv.data.append(
-                    {'Titulo': str(self.TituloProduto), 'UrlImagem': str(self.UrlImagem),
-                     'Preco': "R$ " + str(self.ValorProduto),
-                     'Sku': str(self.Sku),
-                     'DescricaoProduto': str(self.Descricao)})
-                SendMsg = "Ok"
-                client.send(bytes(SendMsg, 'UTF-8'))
             else:
-                self.RequestLogin = ast.literal_eval(self.Recebido)
-                self.TituloProduto = self.RequestLogin['TituloProduto']
-                self.UrlImagem = self.RequestLogin['UrlImagem']
-                self.ValorProduto = self.RequestLogin['ValorProduto']
-                self.Sku = self.RequestLogin['Sku']
-                self.Descricao = self.RequestLogin['Descricao']
-                Count += 1
-                print(Count)
-                self.root.get_screen("MainWindow").ids.rv.data.append(
-                    {'Titulo': str(self.TituloProduto), 'UrlImagem': str(self.UrlImagem),
-                     'Preco': "R$ " + str(self.ValorProduto),
-                     'Sku': str(self.Sku),
-                     'DescricaoProduto': str(self.Descricao)})
-                SendMsg = "Ok"
-                client.send(bytes(SendMsg, 'UTF-8'))
+                pass
+        try:
+            self.root.get_screen("MainWindow").ids.box.opacity = 1
+            self.Pesquisou = False
+            self.root.get_screen("MainWindow").ids.Compra.remove_widget(self.Spinner)
+        except:
+            pass
 
     def AddCart(self):
         self.Carrinho = Carrinho
@@ -415,15 +386,13 @@ class MainApp(MDApp):
         self.config.set('login', 'username', self.Email)
         self.config.set('login', 'password', self.Senha)
         self.config.write()
-        d = {
+        data = {
             'Email': f'{self.Email}',
             'Senha': f'{self.Senha}',
         }
-        SendMsg = "Usuario:" + str(d)
-        client.sendall(bytes(SendMsg, 'UTF-8'))
-        in_data = client.recv(1024)
-        Recebido = in_data.decode()
-        RequestLogin = ast.literal_eval(Recebido)
+        url = "http://192.168.1.163:5000/Cubagem"
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        r = requests.post(url, data=json.dumps(data), headers=headers)
         self.Cpf = RequestLogin['Cpf']
         self.NomeCompleto = RequestLogin['NomeCompleto']
         self.Cep = RequestLogin['Cep']
